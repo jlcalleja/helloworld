@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
     environment {
         pathpython = "C:\\Users\\ADM-1\\AppData\\Local\\Programs\\Python\\Python313"
         pathscript = "C:\\Users\\ADM-1\\AppData\\Local\\Programs\\Python\\Python313\\Scripts"
@@ -13,18 +13,19 @@ pipeline {
 
     stages {
         stage('GetCode') {
+            agent { label 'agente1' }
             steps {
                 git 'https://github.com/jlcalleja/helloworld'
-
                 bat "${informacion}"
+                stash includes: '/config/**', name: 'codigo'
             }
         }
         
         stage('Build') {
+            agent { label 'agente1' }
             steps {
                 echo 'NO HAY QUE COMPILAR NADA, ESTO ES PYTHON'
                 bat "dir"
-               
                 bat "${informacion}"
             }
         }
@@ -32,20 +33,24 @@ pipeline {
         stage('Tests') {
             parallel {
                 stage('Unit') {
+                    agent { label 'agente2' }
                     steps {
+                        unstash 'codigo'
                         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE'){
                             bat '''
                                 set PYTHONPATH=%WORKSPACE%
                                 %pathscript%\\pytest --junitxml=result-unit.xml test\\unit
                            '''
-
                             bat "${informacion}"
+                            stash includes: 'test/results/**', name: 'unitResults'
                         }
                     }
                 }
                 
                 stage('Service') {
+                    agent { label 'agente3' }
                     steps {
+                        unstash 'codigo'
                         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE'){
                             bat '''
                                 set FLASK_APP=app\\api.py
@@ -54,8 +59,8 @@ pipeline {
                                 set PYTHONPATH=%WORKSPACE%
                                 %pathscript%\\pytest --junitxml=result-rest.xml test\\rest
                            '''
-
                             bat "${informacion}"
+                            stash includes: 'test/results/**', name: 'serviceResults' 
                         }
                     }
                 }
@@ -63,9 +68,11 @@ pipeline {
         }
         
         stage('Results') {
+            agent { label 'agente1' }
             steps {
+                unstash 'unitResults'
+                unstash 'serviceResults'
                 junit 'result*.xml'
-
                 bat "${informacion}"
             }
         }
