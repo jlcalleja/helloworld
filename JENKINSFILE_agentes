@@ -5,8 +5,8 @@ pipeline {
         pathscript = "C:\\Users\\ADM-1\\AppData\\Local\\Programs\\Python\\Python313\\Scripts"
         pathwiremock = "C:\\Users\\ADM-1\\Downloads\\wiremock-standalone-3.10.0.jar"
         informacion = '''
-                      echo USUARIO ACTUAL: %whoami%
-                      echo HOST: %hostname%
+                      echo USUARIO ACTUAL: %WHOAMI%
+                      echo HOST: %HOSTNAME%
                       echo ESPACIO DE TRABAJO: %WORKSPACE%
         '''
     }
