@@ -78,9 +78,18 @@ pipeline {
             }
         }
     }
+
     post {
         always {
-            deleteDir()  // Limpiar el workspace después de todas las etapas
+            node('agente1') {
+                clearWs()  // Limpiar el workspace de 'agente1'
+            }
+            node('agente2') {
+                clearWs()  // Limpiar el workspace de 'agente2'
+            }
+            node('agente3') {
+                clearWs()  // Limpiar el workspace de 'agente3'
+            }
         }
     }
 }
