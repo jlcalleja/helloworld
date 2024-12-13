@@ -78,4 +78,9 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            deleteDir()  // Limpiar el workspace después de todas las etapas
+        }
+    }
 }
