@@ -17,7 +17,7 @@ pipeline {
             steps {
                 git 'https://github.com/jlcalleja/helloworld'
                 bat "${informacion}"
-                stash includes: '/config/**', name: 'codigo'
+                stash includes: '**/*', name: 'codigo'
             }
         }
         
@@ -42,7 +42,7 @@ pipeline {
                                 %pathscript%\\pytest --junitxml=result-unit.xml test\\unit
                            '''
                             bat "${informacion}"
-                            stash includes: 'test/results/**', name: 'unitResults'
+                            stash includes: '**/*'', name: 'unitResults'
                         }
                     }
                 }
@@ -60,7 +60,7 @@ pipeline {
                                 %pathscript%\\pytest --junitxml=result-rest.xml test\\rest
                            '''
                             bat "${informacion}"
-                            stash includes: 'test/results/**', name: 'serviceResults' 
+                            stash includes: '**/*'', name: 'serviceResults' 
                         }
                     }
                 }
