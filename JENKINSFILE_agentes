@@ -42,7 +42,7 @@ pipeline {
                                 %pathscript%\\pytest --junitxml=result-unit.xml test\\unit
                            '''
                             bat "${informacion}"
-                            stash includes: '**/*'', name: 'unitResults'
+                            stash includes: '**/*', name: 'unitResults'
                         }
                     }
                 }
@@ -60,7 +60,7 @@ pipeline {
                                 %pathscript%\\pytest --junitxml=result-rest.xml test\\rest
                            '''
                             bat "${informacion}"
-                            stash includes: '**/*'', name: 'serviceResults' 
+                            stash includes: '**/*', name: 'serviceResults'
                         }
                     }
                 }
