@@ -4,12 +4,19 @@ pipeline {
         pathpython = "C:\\Users\\ADM-1\\AppData\\Local\\Programs\\Python\\Python313"
         pathscript = "C:\\Users\\ADM-1\\AppData\\Local\\Programs\\Python\\Python313\\Scripts"
         pathwiremock = "C:\\Users\\ADM-1\\Downloads\\wiremock-standalone-3.10.0.jar"
+        informacion = '''
+                      echo USUARIO ACTUAL: %whoami%
+                      echo HOST: %hostname%
+                      echo ESPACIO DE TRABAJO: %WORKSPACE%
+        '''
     }
 
     stages {
         stage('GetCode') {
             steps {
                 git 'https://github.com/jlcalleja/helloworld'
+
+                bat "${informacion}"
             }
         }
         
@@ -17,8 +24,8 @@ pipeline {
             steps {
                 echo 'NO HAY QUE COMPILAR NADA, ESTO ES PYTHON'
                 bat "dir"
-                echo 'EL ESPACIO DE TRABAJO ES:'
-                bat "echo %WORKSPACE%"
+               
+                bat "${informacion}"
             }
         }
         
@@ -31,6 +38,8 @@ pipeline {
                                 set PYTHONPATH=%WORKSPACE%
                                 %pathscript%\\pytest --junitxml=result-unit.xml test\\unit
                            '''
+
+                            bat "${informacion}"
                         }
                     }
                 }
@@ -45,6 +54,8 @@ pipeline {
                                 set PYTHONPATH=%WORKSPACE%
                                 %pathscript%\\pytest --junitxml=result-rest.xml test\\rest
                            '''
+
+                            bat "${informacion}"
                         }
                     }
                 }
@@ -54,6 +65,8 @@ pipeline {
         stage('Results') {
             steps {
                 junit 'result*.xml'
+
+                bat "${informacion}"
             }
         }
     }
