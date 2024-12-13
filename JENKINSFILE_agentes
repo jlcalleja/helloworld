@@ -82,13 +82,13 @@ pipeline {
     post {
         always {
             node('agente1') {
-                clearWs()  // Limpiar el workspace de 'agente1'
+                cleanWs()  // Limpiar el workspace de 'agente1'
             }
             node('agente2') {
-                clearWs()  // Limpiar el workspace de 'agente2'
+                cleanWs()  // Limpiar el workspace de 'agente2'
             }
             node('agente3') {
-                clearWs()  // Limpiar el workspace de 'agente3'
+                cleanWs()  // Limpiar el workspace de 'agente3'
             }
         }
     }
