@@ -52,7 +52,7 @@ class TestApi(unittest.TestCase):
             response.status, http.client.NOT_ACCEPTABLE, f"Error en la petición API a {url}"
         )
         self.assertIn(
-            "Error HTTP 406", response.read().decode(), "ERROR DIVIDE BY ZERO"
+            "Error HTTP 406", response.read().decode(), "Error HTTP 406"
         )
 
     def test_api_sqrt(self):
