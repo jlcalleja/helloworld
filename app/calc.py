@@ -22,7 +22,6 @@ class Calculator:
         self.check_types(x, y)
         if y == 0:
             return "Error HTTP 406"
-
         return x / y
 
     def power(self, x, y):
