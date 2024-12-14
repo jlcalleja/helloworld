@@ -25,7 +25,7 @@ class TestApi(unittest.TestCase):
             response.read().decode(), "3", "ERROR ADD"
         )
 
-        def test_api_multiply(self):
+    def test_api_multiply(self):  # Asegúrate de que esta función no esté dentro de test_api_add
         url = f"{BASE_URL}/calc/multiply/2/3"
         response = urlopen(url, timeout=DEFAULT_TIMEOUT)
         self.assertEqual(
