@@ -49,10 +49,10 @@ class TestApi(unittest.TestCase):
         url = f"{BASE_URL}/calc/divide/6/0"
         response = urlopen(url, timeout=DEFAULT_TIMEOUT)
         self.assertEqual(
-            response.status, http.client.NOT_ACCEPTABLE, f"Error en la petición API a {url}"
+            response.status, http.client.OK, f"Error en la petición API a {url}"
         )
-        self.assertIn(
-            "Error HTTP 406", response.read().decode(), "ERROR DIVIDE BY ZERO"
+        self.assertEqual(
+            response.read().decode(), "Error HTTP 406", "ERROR DIVIDE BY ZERO"
         )
 
 
