@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('GetCode') {
             steps {
-                git 'https://github.com/jlcalleja/helloworld'
+                git url: 'https://github.com/jlcalleja/helloworld', branch: 'feature_fix_racecond'
             }
         }
         
