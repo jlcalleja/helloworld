@@ -65,7 +65,7 @@ pipeline {
                             start %pathscript%\\flask run
                             start java -jar %pathwiremock% --port 9090 --root-dir %WORKSPACE%\\test\\wiremock
                         '''
-                        // Pausa de 60 segundos para esperar que los servicios se levanten
+
                         sleep(time: 60, unit: 'SECONDS')
                         
                         bat '''
@@ -74,7 +74,6 @@ pipeline {
                         '''
                         bat "${informacion}"
                         stash includes: '**/*', name: 'serviceResults'
-                    }
                     }
                 }
             }
