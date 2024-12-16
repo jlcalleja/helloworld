@@ -52,16 +52,20 @@ pipeline {
                     steps {
                         unstash 'codigo'
                         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE'){
-                            bat '''
-                                set FLASK_APP=app\\api.py
-                                start %pathscript%\\flask run
-                                start java -jar %pathwiremock% --port 9090 --root-dir %WORKSPACE%\\test\\wiremock
-                                bat "timeout /t 20 /nobreak"
-                                set PYTHONPATH=%WORKSPACE%
-                                %pathscript%\\pytest --junitxml=result-rest.xml test\\rest
-                           '''
-                            bat "${informacion}"
-                            stash includes: '**/*', name: 'serviceResults'
+                        bat '''
+                            set FLASK_APP=app\\api.py
+                            start %pathscript%\\flask run
+                            start java -jar %pathwiremock% --port 9090 --root-dir %WORKSPACE%\\test\\wiremock
+                        '''
+                        sleep(time: 60, unit: 'SECONDS')
+                        
+                        bat '''
+                            set PYTHONPATH=%WORKSPACE%
+                            %pathscript%\\pytest --junitxml=result-rest.xml test\\rest
+                        '''
+                        bat "${informacion}"
+                        stash includes: '**/*', name: 'serviceResults'
+                        }
                         }
                     }
                 }
