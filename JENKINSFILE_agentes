@@ -65,7 +65,7 @@ pipeline {
                                 start %pathscript%\\flask run
                                 start java -jar %pathwiremock% --port 9090 --root-dir %WORKSPACE%\\test\\wiremock
 
-                                import time; time.sleep(60)
+                                timeout /t 60
 
                                 set PYTHONPATH=%WORKSPACE%
                                 %pathscript%\\pytest --junitxml=result-rest.xml test\\rest
