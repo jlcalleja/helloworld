@@ -30,15 +30,6 @@ pipeline {
             }
         }
 
-        stage('Builddos') {
-            agent { label 'agente1' }
-            steps {
-                echo 'NO HAY QUE COMPILAR NADA, ESTO ES PYTHON'
-                bat "dir"
-                bat "${informacion}"
-            }
-        }
-        
         stage('Tests') {
             parallel {
                 stage('Unit') {
